@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta https://sant2tip.github.io/la-pagina-web1/">
+>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moda Trendy - Tienda de Ropa</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #222;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: relative;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #444;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            position: relative;
+        }
+        nav a:hover {
+            background-color: #555;
+        }
+        #cart {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            cursor: pointer;
+        }
+        #cart a {
+            color: white;
+            text-decoration: none;
+        }
+        .slider {
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            width: 300%;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slides img {
+            width: 100%;
+            height: auto;
+        }
+        .slider-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .slider-controls button {
+            background-color: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+        section {
+            padding: 20px;
+        }
+        #about, #contact {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        #products {
+            background-color: #eaeaea;
+            padding: 20px;
+            text-align: center;
+        }
+        .product-category {
+            margin: 20px;
+            display: inline-block;
+            width: 30%;
+            vertical-align: top;
+        }
+        .product-category img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .product-category h3 {
+            margin-top: 10px;
+        }
+        #gallery {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background-color: #fff;
+            padding: 20px;
+        }
+        .gallery-item {
+            width: 30%;
+            text-align: center;
+            position: relative;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .gallery-item p {
+            margin: 10px 0;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10; 
+            padding-top: 60px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 700px;
+            position: relative;
+        }
+        .close {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+        .social-links a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .social-links a:hover {
+            color: #ddd;
+        }
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #222;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #444;
+        }
+        /* Carrito */
+        #cart-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 20; 
+            padding-top: 60px; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+        }
+        .cart-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+        .cart-content h2 {
+            margin-top: 0;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .cart-item button {
+            background-color: #ff4d4d;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .cart-item button:hover {
+            background-color: #ff1a1a;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Moda Trendy</h1>
+        <p>Descubre lo último en moda y estilo</p>
+        <div id="cart">
+            <a href="#" id="open-cart">🛒 Carrito (<span id="cart-count">0</span>)</a>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#about">Sobre Nosotros</a>
+        <a href="#products">Productos</a>
+        <a href="#gallery">Galería</a>
+        <a href="#contact">Contacto</a>
+    </nav>
+
+    <!-- Slider de imágenes -->
+    <div class="slider">
+        <div class="slides" id="slides">
+            <img src="https://via.placeholder.com/1200x400?text=Oferta+de+Temporada" alt="Oferta de temporada">
+            <img src="https://via.placeholder.com/1200x400?text=Nuevos+Productos" alt="Nuevos productos">
+            <img src="https://via.placeholder.com/1200x400?text=Descuentos+Increíbles" alt="Descuentos increíbles">
+        </div>
+        <div class="slider-controls">
+            <button id="prev">&#10094;</button>
+            <button id="next">&#10095;</button>
+        </div>
+    </div>
+
+    <section id="about">
+        <h2>Sobre Nosotros</h2>
+        <p>En Moda Trendy, nos apasiona traer las últimas tendencias en ropa y accesorios para mujeres, hombres y niños. Cada prenda está cuidadosamente seleccionada para ofrecer estilo, calidad y comodidad.</p>
+    </section>
+
+    <section id="products">
+        <h2>Nuestros Productos</h2>
+
+        <div class="product-category">
+            <h3>Ropa de Mujer</h3>
+            <img src="https://via.placeholder.com/300x400?text=Ropa+de+Mujer" alt="Ropa de Mujer">
+            <p>Explora nuestra colección de vestidos, blusas y más.</p>
+            <button onclick="addToCart('Ropa de Mujer', 29.99)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-category">
+            <h3>Ropa de Hombre</h3>
+            <img src="https://via.placeholder.com/300x400?text=Ropa+de+Hombre" alt="Ropa de Hombre">
+            <p>Descubre las últimas tendencias en moda masculina.</p>
+            <button onclick="addToCart('Ropa de Hombre', 39.99)">Agregar al Carrito</button>
+        </div>
+
+        <div class="product-category">
+            <h3>Accesorios</h3>
+            <img src="https://via.placeholder.com/300x400?text=Accesorios" alt="Accesorios de Moda">
+            <p>Complementa tu look con bolsos, sombreros y más.</p>
+            <button onclick="addToCart('Accesorios', 19.99)">Agregar al Carrito</button>
+        </div>
+
+    </section>
+
+    <!-- Galería de productos -->
+    <section id="gallery">
+        <h2>Galería de Productos</h2>
+        <div class="gallery-item">
+            <img src="https://via.placeholder.com/300x400?text=Vestido+de+Verano" alt="Vestido de verano" onclick="openModal('Vestido de Verano', 'https://via.placeholder.com/600x800?text=Vestido+de+Verano', 'Un hermoso vestido de verano disponible en varios colores.')" >
+            <p>Vestido de verano</p>
+        </div>
+        <div class="gallery-item">
+            <img src="https://via.placeholder.com/300x400?text=Camisa+Casual" alt="Camisa casual" onclick="openModal('Camisa Casual', 'https://via.placeholder.com/600x800?text=Camisa+Casual', 'Camisa casual perfecta para cualquier ocasión. Disponible en múltiples tallas.')">
+            <p>Camisa casual</p>
+        </div>
+        <div class="gallery-item">
+            <img src="https://via.placeholder.com/300x400?text=Sombrero+de+Moda" alt="Sombrero de moda" onclick="openModal('Sombrero de Moda', 'https://via.placeholder.com/600x800?text=Sombrero+de+Moda', 'Sombrero de moda ideal para complementar tu look. Hecho con materiales de alta calidad.')">
+            <p>Sombrero de moda</p>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contacto</h2>
+        <p>¿Tienes preguntas o comentarios? Envíanos un mensaje y nos pondremos en contacto contigo lo antes posible.</p>
+        <form>
+            <input type="text" name="name" placeholder="Tu Nombre" required>
+            <input type="email" name="email" placeholder="Tu Correo Electrónico" required>
+            <textarea name="message" rows="5" placeholder="Tu Mensaje" required></textarea>
+            <input type="submit" value="Enviar">
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Moda Trendy. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/" target="_blank">Facebook</a> |
+            <a href="https://www.instagram.com/" target="_blank">Instagram</a> |
+            <a href="https://www.twitter.com/" target="_blank">Twitter</a>
+        </div>
+    </footer>
+
+    <!-- Modal para Galería -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <img id="modal-image" src="" alt="" style="width:100%; height:auto; border-radius:8px;">
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+    <!-- Modal para Carrito -->
+    <div id="cart-modal" class="modal">
+        <div class="cart-content">
+            <span class="close" onclick="closeCart()">&times;</span>
+            <h2>Tu Carrito</h2>
+            <div id="cart-items">
+                <p>Tu carrito está vacío.</p>
+            </div>
+            <h3>Total: $<span id="cart-total">0.00</span></h3>
+            <button onclick="checkout()">Proceder al Pago</button>
+        </div>
+    </div>
+
+    <script>
+        // Slider JavaScript
+        let currentSlide = 0;
+        const slides = document.getElementById('slides');
+        const totalSlides = slides.children.length;
+
+        document.getElementById('next').addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlide();
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlide();
+        });
+
+        function updateSlide() {
+            slides.style.transform = 'translateX(' + (-currentSlide * 100) + '%)';
+        }
+
+        // Auto Slider
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlide();
+        }, 5000);
+
+        // Modal de Galería
+        const modal = document.getElementById('product-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImage = document.getElementById('modal-image');
+        const modalDescription = document.getElementById('modal-description');
+
+        function openModal(title, imageSrc, description) {
+            modalTitle.textContent = title;
+            modalImage.src = imageSrc;
+            modalDescription.textContent = description;
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+            if (event.target == cartModal) {
+                cartModal.style.display = 'none';
+            }
+        }
+
+        // Carrito de Compras
+        const cart = [];
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const cartModal = document.getElementById('cart-modal');
+
+        function addToCart(productName, productPrice) {
+            cart.push({ name: productName, price: productPrice });
+            updateCart();
+        }
+
+        function updateCart() {
+            cartCount.textContent = cart.length;
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Tu carrito está vacío.</p>';
+                cartTotal.textContent = '0.00';
+            } else {
+                let items = '';
+                let total = 0;
+                cart.forEach((item, index) => {
+                    items += `
+                        <div class="cart-item">
+                            <span>${item.name} - $${item.price.toFixed(2)}</span>
+                            <button onclick="removeFromCart(${index})">Eliminar</button>
+                        </div>
+                    `;
+                    total += item.price;
+                });
+                cartItemsContainer.innerHTML = items;
+                cartTotal.textContent = total.toFixed(2);
+            }
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function openCart() {
+            cartModal.style.display = 'block';
+        }
+
+        function closeCart() {
+            cartModal.style.display = 'none';
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Tu carrito está vacío.');
+            } else {
+                alert('Gracias por tu compra!');
+                cart.length = 0;
+                updateCart();
+                cartModal.style.display = 'none';
+            }
+        }
+
+        document.getElementById('open-cart').addEventListener('click', (e) => {
+            e.preventDefault();
+            openCart();
+        });
+    </script>
+
+</body>
+</html>
