@@ -237,6 +237,51 @@
     </style>
 </head>
 <body>
+    <div class="product-container">
+        <h1>Producto Ejemplo</h1>
+        <img src="images/producto.jpg" alt="Producto" class="product-image" id="productImage">
+
+        <div class="sizes">
+            <label for="sizeSelect">Elige tu talla:</label>
+            <select id="sizeSelect">
+                <option value="S">S - Pequeña</option>
+                <option value="M">M - Mediana</option>
+                <option value="L">L - Grande</option>
+                <option value="XL">XL - Extra Grande</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Modal para ver imagen ampliada -->
+    <div class="modal" id="imageModal">
+        <img id="modalImage" alt="Imagen Ampliada">
+    </div>
+
+    <script>
+        // Obtener elementos
+        const productImage = document.getElementById('productImage');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        // Evento para abrir la imagen en un modal
+        productImage.addEventListener('click', () => {
+            modalImage.src = productImage.src;
+            imageModal.style.display = 'flex';
+        });
+
+        // Evento para cerrar el modal al hacer clic fuera de la imagen
+        imageModal.addEventListener('click', () => {
+            imageModal.style.display = 'none';
+        });
+
+        // Selector de talla
+        const sizeSelect = document.getElementById('sizeSelect');
+        sizeSelect.addEventListener('change', () => {
+            alert(`Has seleccionado la talla: ${sizeSelect.value}`);
+        });
+    </script>
+</body>
+</html>
 
     <header>
         <h1>Moda Trendy</h1>
